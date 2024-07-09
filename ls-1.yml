@@ -1,0 +1,14 @@
+---
+- name: Verifying the network device configuration has not changed for cisco ios
+  hosts: cisco
+  gather_facts: false
+  tasks:
+    - name: Gather the configuration
+      cisco.ios.ios_command:
+        commands: show running-config
+      register: config
+    - name: Verify the configuration has not changed
+      ansible.builtin.assert:
+        that:
+          - config.stdout[0] == ansible_net_config
+        fail_msg: The configuration has changed. Please investigate.

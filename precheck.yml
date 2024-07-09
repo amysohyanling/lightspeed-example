@@ -1,0 +1,16 @@
+---
+- name: create tasks
+  hosts: all
+  tasks:
+    # Install cockpit & start the service
+    - name: Install cockpit
+      ansible.builtin.package:
+        name: cockpit
+        state: present
+
+    - name: Start the service
+      ansible.builtin.service:
+        name: cockpit
+        state: started
+        enabled: true
+    
