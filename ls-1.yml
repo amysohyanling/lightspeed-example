@@ -5,10 +5,9 @@
   tasks:
     - name: Gather cisco network device configuration
       cisco.ios.ios_facts:
-        gather_subset:
-          - "!all"
-          - "!min"
-          - interfaces
+        gather_subset: 
+          - config
+
     - name: Verify ip address information is accurate and config did not changed
       ansible.builtin.assert:
         that: "{{ ansible_net_interfaces | dict2items }}"
