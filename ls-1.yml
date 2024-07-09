@@ -1,12 +1,13 @@
 ---
-- name: Gather Cisco IOS Facts
+- name: Retrieve Cisco IOS Facts
   hosts: cisco
   gather_facts: false
   tasks:
     - name: Gather Cisco IOS Facts
       cisco.ios.ios_facts:
-        gather_subset: all
-    - name: Save Cisco IOS Facts
-      ansible.builtin.copy:
-        content: "{{ ansible_facts | to_nice_json }}"
-        dest: /home/student/my_facts.txt
+    - name: Display Version
+      ansible.builtin.debug:
+        msg: "{{ ansible_net_version }}"
+    - name: Display Serial Number
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts['net_serialnum'] }}"
