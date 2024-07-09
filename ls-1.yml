@@ -1,13 +1,11 @@
----
-- name: Gather a subset of the cisco network device configuration (Layer 3 interfaces only) and verify the ip address information is accurate and config did not changed.
+- name: Update cisco ios vlan
   hosts: cisco
   gather_facts: false
   tasks:
-    - name: Gather cisco network device configuration
+    - name: Gather cisco ios facts
       cisco.ios.ios_facts:
-        gather_subset: 
-          - config
-
-    - name: Verify ip address information is accurate and config did not changed
-      ansible.builtin.assert:
-        that: "{{ ansible_net_interfaces | dict2items }}"
+        gather_subset: all
+    - name: Update cisco ios vlan
+      cisco.ios.ios_config:
+        lines: "{{ vlans }}"
+        parents: "{{ vlans }}"
