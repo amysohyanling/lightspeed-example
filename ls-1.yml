@@ -1,11 +1,10 @@
-- name: Update cisco ios vlan
+---
+- name: Retrieve the cisco ios facts and cisco ios network version
   hosts: cisco
   gather_facts: false
   tasks:
-    - name: Gather cisco ios facts
+    - name: Gather facts
       cisco.ios.ios_facts:
-        gather_subset: all
-    - name: Update cisco ios vlan
-      cisco.ios.ios_config:
-        lines: "{{ vlans }}"
-        parents: "{{ vlans }}"
+    - name: Print the IOS version
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts['net_version'] }}"
