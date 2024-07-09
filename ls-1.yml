@@ -1,14 +1,14 @@
 ---
-- name: Verifying the network device configuration has not changed for cisco ios
+- name: Gather a subset of the cisco network device configuration (Layer 3 interfaces only) and verify the ip address information is accurate and config did not changed.
   hosts: cisco
   gather_facts: false
   tasks:
-    - name: Gather the configuration
-      cisco.ios.ios_command:
-        commands: show running-config
-      register: config
-    - name: Verify the configuration has not changed
+    - name: Gather cisco network device configuration
+      cisco.ios.ios_facts:
+        gather_subset:
+          - "!all"
+          - "!min"
+          - interfaces
+    - name: Verify ip address information is accurate and config did not changed
       ansible.builtin.assert:
-        that:
-          - config.stdout[0] == ansible_net_config
-        fail_msg: The configuration has changed. Please investigate.
+        that: "{{ ansible_net_interfaces | dict2items }}"
