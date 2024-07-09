@@ -1,10 +1,12 @@
 ---
-- name: Retrieve the cisco ios facts and cisco ios network version
+- name: Gather Cisco IOS Facts
   hosts: cisco
   gather_facts: false
   tasks:
-    - name: Gather facts
+    - name: Gather Cisco IOS Facts
       cisco.ios.ios_facts:
-    - name: Print the IOS version
-      ansible.builtin.debug:
-        msg: "{{ ansible_facts['net_version'] }}"
+        gather_subset: all
+    - name: Save Cisco IOS Facts
+      ansible.builtin.copy:
+        content: "{{ ansible_facts | to_nice_json }}"
+        dest: /home/student/my_facts.txt
